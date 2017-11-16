@@ -19,6 +19,25 @@ grad = zeros(size(theta));
 
 
 
+m = length(y);
+
+
+z= X*theta;
+hOfx = sigmoid(z)   %  1./(1+ exp(-1.*z));
+a = -y.*log(hOfx);
+b= (1-y).*log(1-hOfx);
+c = (lambda/(2*m))* sum(theta(1:end, 2:end)(:))
+J= ((1/m) *sum(a-b))+c;
+
+J = 1 / m * sum(-y .* log(hOfx) - (1 - y) .* log(1 - hOfx)) + lambda / (2 * m) * sum(theta(2:end) .^ 2);
+
+grad(1) =  sum((hOfx - y) .* X(:, 1))*(1 / m);
+
+
+for i = 2:size(theta, 1)
+    grad(i) = 1 / m * sum((hOfx - y) .* X(:, i)) + lambda / m * theta(i);
+end
+
 
 
 
